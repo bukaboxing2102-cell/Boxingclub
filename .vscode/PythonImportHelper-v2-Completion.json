@@ -1,0 +1,362 @@
+[
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "Bot",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "Dispatcher",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "types",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "Bot",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "Dispatcher",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "F",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "importPath": "aiogram.filters",
+        "description": "aiogram.filters",
+        "isExtraImport": true,
+        "detail": "aiogram.filters",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "importPath": "aiogram.filters",
+        "description": "aiogram.filters",
+        "isExtraImport": true,
+        "detail": "aiogram.filters",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyKeyboardMarkup",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "KeyboardButton",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "Message",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "CallbackQuery",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "InlineKeyboardMarkup",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "InlineKeyboardButton",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "aiosqlite",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "aiosqlite",
+        "description": "aiosqlite",
+        "detail": "aiosqlite",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "TOKEN",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "TOKEN = \"8729643272:AAEew8aqaiff5zACXp1iXi_OA8fPwMO5V1s\"\nADMIN_ID = 5192014741\n# =========================\nbot = Bot(token=TOKEN)\ndp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "ADMIN_ID",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "ADMIN_ID = 5192014741\n# =========================\nbot = Bot(token=TOKEN)\ndp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "bot",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "bot = Bot(token=TOKEN)\ndp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "dp",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "dp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0\n)",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "db = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0\n)\n\"\"\")\ndb.commit()",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "cursor",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "cursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0\n)\n\"\"\")\ndb.commit()\n# MENU",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "menu",
+        "kind": 5,
+        "importPath": "Boks-bot.main",
+        "description": "Boks-bot.main",
+        "peekOfCode": "menu = ReplyKeyboardMarkup(\n    keyboard=[\n        [KeyboardButton(text=\"➕ Sportchi qo'shish\")],\n        [KeyboardButton(text=\"📋 Sportchilar\")],\n        [KeyboardButton(text=\"💰 To'lov qilganlar\")],\n        [KeyboardButton(text=\"❌ Qarzdorlar\")],\n        [KeyboardButton(text=\"📢 Barchaga xabar\")]\n    ],\n    resize_keyboard=True\n)",
+        "detail": "Boks-bot.main",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 2,
+        "importPath": "dashboard",
+        "description": "dashboard",
+        "peekOfCode": "def db():\n    c = sqlite3.connect(DB)\n    c.row_factory = sqlite3.Row\n    return c\n@app.route(\"/\")\ndef home():\n    conn = db()\n    total = conn.execute(\n        \"SELECT COUNT(*) c FROM users\"\n    ).fetchone()[\"c\"]",
+        "detail": "dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "home",
+        "kind": 2,
+        "importPath": "dashboard",
+        "description": "dashboard",
+        "peekOfCode": "def home():\n    conn = db()\n    total = conn.execute(\n        \"SELECT COUNT(*) c FROM users\"\n    ).fetchone()[\"c\"]\n    paid = conn.execute(\n        \"SELECT COUNT(*) c FROM users WHERE payment=1\"\n    ).fetchone()[\"c\"]\n    rows = conn.execute(\"\"\"\n    SELECT name, phone, payment, attendance, missed",
+        "detail": "dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "dashboard",
+        "description": "dashboard",
+        "peekOfCode": "app = Flask(__name__)\nDB = \"club.db\"\ndef db():\n    c = sqlite3.connect(DB)\n    c.row_factory = sqlite3.Row\n    return c\n@app.route(\"/\")\ndef home():\n    conn = db()\n    total = conn.execute(",
+        "detail": "dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "DB",
+        "kind": 5,
+        "importPath": "dashboard",
+        "description": "dashboard",
+        "peekOfCode": "DB = \"club.db\"\ndef db():\n    c = sqlite3.connect(DB)\n    c.row_factory = sqlite3.Row\n    return c\n@app.route(\"/\")\ndef home():\n    conn = db()\n    total = conn.execute(\n        \"SELECT COUNT(*) c FROM users\"",
+        "detail": "dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "user_kb",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def user_kb():\n    return InlineKeyboardMarkup(inline_keyboard=[\n        [InlineKeyboardButton(text=\"👤 Profil\", callback_data=\"profile\")],\n        [InlineKeyboardButton(text=\"💰 To‘lov\", callback_data=\"pay\")],\n        [InlineKeyboardButton(text=\"🥊 Murabbiy\", callback_data=\"coach\")]\n    ])\ndef admin_kb():\n    return InlineKeyboardMarkup(inline_keyboard=[\n        [InlineKeyboardButton(text=\"👥 Sportchilar\", callback_data=\"users\")],\n        [InlineKeyboardButton(text=\"💰 To‘laganlar\", callback_data=\"paid\")],",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "admin_kb",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def admin_kb():\n    return InlineKeyboardMarkup(inline_keyboard=[\n        [InlineKeyboardButton(text=\"👥 Sportchilar\", callback_data=\"users\")],\n        [InlineKeyboardButton(text=\"💰 To‘laganlar\", callback_data=\"paid\")],\n        [InlineKeyboardButton(text=\"❌ Qarzdorlar\", callback_data=\"debt\")],\n        [InlineKeyboardButton(text=\"📊 Davomat report\", callback_data=\"report\")],\n        [InlineKeyboardButton(text=\"📣 Xabar yuborish\", callback_data=\"broadcast\")],\n        [InlineKeyboardButton(text=\"🥊 Murabbiy info\", callback_data=\"coach\")]\n    ])\n# ================= START =================",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "TOKEN",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "TOKEN = \"8729643272:AAEKIM3A5s1bzRrc9Epf6swoLtmLEw2HN4E\"\nADMIN_ID = 5192014741\nCARD = \"8600120414465784\"\nDB = \"club.db\"\nbot = Bot(TOKEN)\ndp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "ADMIN_ID",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "ADMIN_ID = 5192014741\nCARD = \"8600120414465784\"\nDB = \"club.db\"\nbot = Bot(TOKEN)\ndp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:\n        await db.execute(\"\"\"",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "CARD",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "CARD = \"8600120414465784\"\nDB = \"club.db\"\nbot = Bot(TOKEN)\ndp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:\n        await db.execute(\"\"\"\n        CREATE TABLE IF NOT EXISTS users(",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "DB",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "DB = \"club.db\"\nbot = Bot(TOKEN)\ndp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:\n        await db.execute(\"\"\"\n        CREATE TABLE IF NOT EXISTS users(\n            id INTEGER PRIMARY KEY,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "bot",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "bot = Bot(TOKEN)\ndp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:\n        await db.execute(\"\"\"\n        CREATE TABLE IF NOT EXISTS users(\n            id INTEGER PRIMARY KEY,\n            name TEXT,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "dp",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "dp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:\n        await db.execute(\"\"\"\n        CREATE TABLE IF NOT EXISTS users(\n            id INTEGER PRIMARY KEY,\n            name TEXT,\n            phone TEXT DEFAULT '-',",
+        "detail": "main",
+        "documentation": {}
+    }
+]

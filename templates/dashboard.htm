@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umidov Boks Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+body{
+    background:#0f172a;
+    color:white;
+    padding:20px;
+}
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+.cards{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+.card{
+    flex:1;
+    min-width:200px;
+    background:#1e293b;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+}
+.chart-box{
+    background:#1e293b;
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:30px;
+}
+table{
+    width:100%;
+    background:white;
+    color:black;
+    border-collapse:collapse;
+}
+th,td{
+    padding:12px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+th{
+    background:black;
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🥊 UMIDOV BOKS CLUB</h1>
+
+<div class="cards">
+    <div class="card">👥 {{ total }}</div>
+    <div class="card">💰 {{ paid }}</div>
+    <div class="card">❌ {{ unpaid }}</div>
+</div>
+
+<div class="chart-box">
+    <h2>📊 Davomat</h2>
+    <canvas id="attendanceChart"></canvas>
+</div>
+
+<table>
+<tr>
+    <th>Ism</th>
+    <th>Telefon</th>
+    <th>To‘lov</th>
+    <th>Kelgan</th>
+    <th>Qoldirgan</th>
+</tr>
+
+{% for r in rows %}
+<tr>
+    <td>{{ r.name }}</td>
+    <td>{{ r.phone }}</td>
+    <td>{% if r.payment == 1 %}✅{% else %}❌{% endif %}</td>
+    <td>{{ r.attendance }}</td>
+    <td>{{ r.missed }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</div>
+
+<script>
+const names = {{ names | tojson }};
+const attendance = {{ attendance | tojson }};
+
+const ctx = document.getElementById("attendanceChart");
+
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: names,
+        datasets: [{
+            label: "Davomat",
+            data: attendance
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
