@@ -296,10 +296,12 @@ async def debt(call: CallbackQuery):
 async def attendance_menu(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
+
         cur = await db.execute("""
         SELECT name, attendance, missed
         FROM users
         """)
+
         rows = await cur.fetchall()
 
     text = "📊 DAVOMAT HISOBOTI\n\n"
@@ -315,18 +317,22 @@ async def attendance_menu(call: CallbackQuery):
     await call.message.answer(text)
 
     async with aiosqlite.connect(DB) as db:
+
         cur = await db.execute(
             "SELECT id,name FROM users"
         )
+
         users = await cur.fetchall()
 
     for user in users:
+
         kb = InlineKeyboardMarkup(
             inline_keyboard=[[
                 InlineKeyboardButton(
                     text="✅ Keldi",
                     callback_data=f"came_{user[0]}"
                 ),
+
                 InlineKeyboardButton(
                     text="❌ Kelmadi",
                     callback_data=f"missed_{user[0]}"
@@ -340,6 +346,84 @@ async def attendance_menu(call: CallbackQuery):
         )
 
     await call.answer()
+
+
+# ================= CAME =================
+@dp.callback_query(F.data.startswith("came_"))
+async def came_user(call: CallbackQuery):
+
+    uid = int(call.data.split("_")[1])
+
+    today = str(date.today())
+
+    async with aiosqlite.connect(DB) as db:
+
+        cur = await db.execute("""
+        SELECT * FROM attendance
+        WHERE user_id=? AND date=?
+        """, (uid, today))
+
+        check = await cur.fetchone()
+
+        if check:
+            await call.answer(
+                "Bugun davomat qilingan ✅"
+            )
+            return
+
+        await db.execute("""
+        INSERT INTO attendance(user_id,date,status)
+        VALUES(?,?,?)
+        """, (uid, today, "came"))
+
+        await db.execute("""
+        UPDATE users
+        SET attendance = attendance + 1
+        WHERE id=?
+        """, (uid,))
+
+        await db.commit()
+
+    await call.answer("Keldi belgilandi ✅")
+
+
+# ================= MISSED =================
+@dp.callback_query(F.data.startswith("missed_"))
+async def missed_user(call: CallbackQuery):
+
+    uid = int(call.data.split("_")[1])
+
+    today = str(date.today())
+
+    async with aiosqlite.connect(DB) as db:
+
+        cur = await db.execute("""
+        SELECT * FROM attendance
+        WHERE user_id=? AND date=?
+        """, (uid, today))
+
+        check = await cur.fetchone()
+
+        if check:
+            await call.answer(
+                "Bugun davomat qilingan ✅"
+            )
+            return
+
+        await db.execute("""
+        INSERT INTO attendance(user_id,date,status)
+        VALUES(?,?,?)
+        """, (uid, today, "missed"))
+
+        await db.execute("""
+        UPDATE users
+        SET missed = missed + 1
+        WHERE id=?
+        """, (uid,))
+
+        await db.commit()
+
+    await call.answer("Kelmadi belgilandi ❌")
 
 # ================= COACH =================
 @dp.callback_query(F.data == "coach")
