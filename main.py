@@ -8,8 +8,8 @@ from aiogram.types import (
     Message,
     CallbackQuery,
     InlineKeyboardMarkup,
-    InlineKeyboardButton
-    ReplyKeyboardMarkup
+    InlineKeyboardButton,
+    ReplyKeyboardMarkup,
     KeyboardButton
 )
 from aiogram.filters import Command
