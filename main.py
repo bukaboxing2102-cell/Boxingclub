@@ -15,7 +15,7 @@ from aiogram.types import (
 from aiogram.filters import Command
 
 # ================= CONFIG =================
-TOKEN = 8729643272:AAEKIM3A5s1bzRrc9Epf6swoLtmLEw2HN4E""
+TOKEN = "8729643272:AAEKIM3A5s1bzRrc9Epf6swoLtmLEw2HN4E"
 ADMIN_ID = 5192014741
 
 CARD = "8600120414465784"
@@ -28,6 +28,7 @@ bot = Bot(TOKEN)
 dp = Dispatcher()
 
 logging.basicConfig(level=logging.INFO)
+
 
 # ================= DATABASE =================
 async def init_db():
@@ -56,6 +57,7 @@ async def init_db():
 
         await db.commit()
 
+
 # ================= KEYBOARDS =================
 def phone_kb():
     return ReplyKeyboardMarkup(
@@ -64,12 +66,14 @@ def phone_kb():
         one_time_keyboard=True
     )
 
+
 def user_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton("👤 Profil", callback_data="profile")],
         [InlineKeyboardButton("💰 To‘lov", callback_data="pay")],
         [InlineKeyboardButton("🥊 Murabbiy", callback_data="coach")]
     ])
+
 
 def admin_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
@@ -79,6 +83,7 @@ def admin_kb():
         [InlineKeyboardButton("📊 Davomat", callback_data="attendance_menu")],
         [InlineKeyboardButton("📣 Xabar yuborish", callback_data="broadcast")]
     ])
+
 
 # ================= START =================
 @dp.message(Command("start"))
@@ -100,6 +105,7 @@ async def start(msg: Message):
     await msg.answer("📱 Telefon raqamingizni yuboring", reply_markup=phone_kb())
     await msg.answer("🥊 UMIDOV BOKS CLUB CRM", reply_markup=kb)
 
+
 # ================= PHONE =================
 @dp.message(F.contact)
 async def save_phone(msg: Message):
@@ -111,6 +117,7 @@ async def save_phone(msg: Message):
         await db.commit()
 
     await msg.answer("✅ Telefon saqlandi")
+
 
 # ================= PROFILE =================
 @dp.callback_query(F.data == "profile")
@@ -138,6 +145,7 @@ async def profile(call: CallbackQuery):
 
     await call.answer()
 
+
 # ================= PAYMENT =================
 @dp.callback_query(F.data == "pay")
 async def pay(call: CallbackQuery):
@@ -160,6 +168,7 @@ Hisob: {BANK_ACCOUNT}
 
     await call.answer()
 
+
 # ================= BANK =================
 @dp.callback_query(F.data == "bank")
 async def bank(call: CallbackQuery):
@@ -173,6 +182,7 @@ Hisob: {BANK_ACCOUNT}
 """)
     await call.answer()
 
+
 # ================= CARD/CASH CHECK =================
 @dp.message(F.photo)
 async def photo(msg: Message):
@@ -183,6 +193,7 @@ async def photo(msg: Message):
 
     await bot.send_photo(ADMIN_ID, msg.photo[-1].file_id, reply_markup=kb)
     await msg.answer("📩 Yuborildi")
+
 
 @dp.callback_query(F.data.startswith("pay_"))
 async def approve(call: CallbackQuery):
@@ -201,6 +212,7 @@ async def approve(call: CallbackQuery):
     await bot.send_message(uid, "✅ To‘lov tasdiqlandi")
     await call.answer()
 
+
 # ================= USERS =================
 @dp.callback_query(F.data == "users")
 async def users(call: CallbackQuery):
@@ -215,6 +227,7 @@ async def users(call: CallbackQuery):
 
     await call.message.edit_text(text)
     await call.answer()
+
 
 # ================= PAID =================
 @dp.callback_query(F.data == "paid")
@@ -234,6 +247,7 @@ async def paid(call: CallbackQuery):
     await call.message.edit_text(text)
     await call.answer()
 
+
 # ================= DEBT =================
 @dp.callback_query(F.data == "debt")
 async def debt(call: CallbackQuery):
@@ -248,6 +262,7 @@ async def debt(call: CallbackQuery):
 
     await call.message.edit_text(text)
     await call.answer()
+
 
 # ================= ATTENDANCE =================
 @dp.callback_query(F.data == "attendance_menu")
@@ -266,6 +281,7 @@ async def attendance_menu(call: CallbackQuery):
         await call.message.answer(u[1], reply_markup=kb)
 
     await call.answer()
+
 
 # ================= CAME =================
 @dp.callback_query(F.data.startswith("came_"))
@@ -290,6 +306,7 @@ async def came(call: CallbackQuery):
     await bot.send_message(uid, "✅ Keldingiz belgilandi")
     await call.answer()
 
+
 # ================= MISSED =================
 @dp.callback_query(F.data.startswith("missed_"))
 async def missed(call: CallbackQuery):
@@ -313,8 +330,10 @@ async def missed(call: CallbackQuery):
     await bot.send_message(uid, "❌ Kelmadingiz belgilandi")
     await call.answer()
 
+
 # ================= BROADCAST (FIXED) =================
 broadcast_mode = False
+
 
 @dp.callback_query(F.data == "broadcast")
 async def bc(call: CallbackQuery):
@@ -322,6 +341,7 @@ async def bc(call: CallbackQuery):
     broadcast_mode = True
     await call.message.answer("📣 Xabar yozing")
     await call.answer()
+
 
 @dp.message()
 async def broadcast_handler(msg: Message):
@@ -342,10 +362,12 @@ async def broadcast_handler(msg: Message):
         broadcast_mode = False
         await msg.answer("✅ Yuborildi")
 
+
 # ================= RUN =================
 async def main():
     await init_db()
     await dp.start_polling(bot)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
