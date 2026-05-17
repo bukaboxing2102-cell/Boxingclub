@@ -15,7 +15,7 @@ from aiogram.types import (
 from aiogram.filters import Command
 
 # ================= CONFIG =================
-TOKEN = "8729643272:AAEKIM3A5s1bzRrc9Epf6swoLtmLEw2HN4E"
+TOKEN = 8729643272:AAEKIM3A5s1bzRrc9Epf6swoLtmLEw2HN4E""
 ADMIN_ID = 5192014741
 
 CARD = "8600120414465784"
@@ -29,11 +29,9 @@ dp = Dispatcher()
 
 logging.basicConfig(level=logging.INFO)
 
-
 # ================= DATABASE =================
 async def init_db():
     async with aiosqlite.connect(DB) as db:
-
         await db.execute("""
         CREATE TABLE IF NOT EXISTS users(
             id INTEGER PRIMARY KEY,
@@ -58,7 +56,6 @@ async def init_db():
 
         await db.commit()
 
-
 # ================= KEYBOARDS =================
 def phone_kb():
     return ReplyKeyboardMarkup(
@@ -67,7 +64,6 @@ def phone_kb():
         one_time_keyboard=True
     )
 
-
 def user_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton("👤 Profil", callback_data="profile")],
@@ -75,16 +71,14 @@ def user_kb():
         [InlineKeyboardButton("🥊 Murabbiy", callback_data="coach")]
     ])
 
-
 def admin_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton("👥 Sportchilar", callback_data="users")],
         [InlineKeyboardButton("💰 To‘laganlar", callback_data="paid")],
         [InlineKeyboardButton("❌ Qarzdorlar", callback_data="debt")],
         [InlineKeyboardButton("📊 Davomat", callback_data="attendance_menu")],
-        [InlineKeyboardButton("📣 Xabar yuborish", callback_data="broadcast")],
+        [InlineKeyboardButton("📣 Xabar yuborish", callback_data="broadcast")]
     ])
-
 
 # ================= START =================
 @dp.message(Command("start"))
@@ -106,7 +100,6 @@ async def start(msg: Message):
     await msg.answer("📱 Telefon raqamingizni yuboring", reply_markup=phone_kb())
     await msg.answer("🥊 UMIDOV BOKS CLUB CRM", reply_markup=kb)
 
-
 # ================= PHONE =================
 @dp.message(F.contact)
 async def save_phone(msg: Message):
@@ -119,7 +112,6 @@ async def save_phone(msg: Message):
 
     await msg.answer("✅ Telefon saqlandi")
 
-
 # ================= PROFILE =================
 @dp.callback_query(F.data == "profile")
 async def profile(call: CallbackQuery):
@@ -131,6 +123,10 @@ async def profile(call: CallbackQuery):
         """, (call.from_user.id,))
         u = await cur.fetchone()
 
+    if not u:
+        await call.answer("User topilmadi")
+        return
+
     await call.message.edit_text(f"""
 👤 {u[0]}
 📞 {u[1]}
@@ -141,7 +137,6 @@ async def profile(call: CallbackQuery):
 """, reply_markup=user_kb())
 
     await call.answer()
-
 
 # ================= PAYMENT =================
 @dp.callback_query(F.data == "pay")
@@ -165,12 +160,11 @@ Hisob: {BANK_ACCOUNT}
 
     await call.answer()
 
-
 # ================= BANK =================
 @dp.callback_query(F.data == "bank")
 async def bank(call: CallbackQuery):
     await call.message.answer(f"""
-🏦 BANK
+🏦 BANK REKVIZIT
 
 MFO: {BANK_MFO}
 Hisob: {BANK_ACCOUNT}
@@ -179,14 +173,7 @@ Hisob: {BANK_ACCOUNT}
 """)
     await call.answer()
 
-
-# ================= CARD =================
-@dp.callback_query(F.data == "card")
-async def card(call: CallbackQuery):
-    await call.message.answer("📸 Karta chek yuboring")
-    await call.answer()
-
-
+# ================= CARD/CASH CHECK =================
 @dp.message(F.photo)
 async def photo(msg: Message):
 
@@ -196,7 +183,6 @@ async def photo(msg: Message):
 
     await bot.send_photo(ADMIN_ID, msg.photo[-1].file_id, reply_markup=kb)
     await msg.answer("📩 Yuborildi")
-
 
 @dp.callback_query(F.data.startswith("pay_"))
 async def approve(call: CallbackQuery):
@@ -215,7 +201,6 @@ async def approve(call: CallbackQuery):
     await bot.send_message(uid, "✅ To‘lov tasdiqlandi")
     await call.answer()
 
-
 # ================= USERS =================
 @dp.callback_query(F.data == "users")
 async def users(call: CallbackQuery):
@@ -230,7 +215,6 @@ async def users(call: CallbackQuery):
 
     await call.message.edit_text(text)
     await call.answer()
-
 
 # ================= PAID =================
 @dp.callback_query(F.data == "paid")
@@ -250,15 +234,12 @@ async def paid(call: CallbackQuery):
     await call.message.edit_text(text)
     await call.answer()
 
-
 # ================= DEBT =================
 @dp.callback_query(F.data == "debt")
 async def debt(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
-        cur = await db.execute("""
-        SELECT name FROM users WHERE payment=0
-        """)
+        cur = await db.execute("SELECT name FROM users WHERE payment=0")
         rows = await cur.fetchall()
 
     text = "❌ QARZDORLAR\n\n"
@@ -267,7 +248,6 @@ async def debt(call: CallbackQuery):
 
     await call.message.edit_text(text)
     await call.answer()
-
 
 # ================= ATTENDANCE =================
 @dp.callback_query(F.data == "attendance_menu")
@@ -287,7 +267,6 @@ async def attendance_menu(call: CallbackQuery):
 
     await call.answer()
 
-
 # ================= CAME =================
 @dp.callback_query(F.data.startswith("came_"))
 async def came(call: CallbackQuery):
@@ -297,29 +276,19 @@ async def came(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
 
-        cur = await db.execute(
-            "SELECT * FROM attendance WHERE user_id=? AND date=?",
-            (uid, today)
-        )
+        cur = await db.execute("SELECT * FROM attendance WHERE user_id=? AND date=?", (uid, today))
         if await cur.fetchone():
             await call.answer("Allaqachon belgilangan")
             return
 
-        await db.execute(
-            "INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)",
-            (uid, today, "came")
-        )
+        await db.execute("INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)",
+                         (uid, today, "came"))
 
-        await db.execute(
-            "UPDATE users SET attendance=attendance+1 WHERE id=?",
-            (uid,)
-        )
-
+        await db.execute("UPDATE users SET attendance=attendance+1 WHERE id=?", (uid,))
         await db.commit()
 
     await bot.send_message(uid, "✅ Keldingiz belgilandi")
     await call.answer()
-
 
 # ================= MISSED =================
 @dp.callback_query(F.data.startswith("missed_"))
@@ -330,47 +299,36 @@ async def missed(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
 
-        cur = await db.execute(
-            "SELECT * FROM attendance WHERE user_id=? AND date=?",
-            (uid, today)
-        )
+        cur = await db.execute("SELECT * FROM attendance WHERE user_id=? AND date=?", (uid, today))
         if await cur.fetchone():
             await call.answer("Allaqachon belgilangan")
             return
 
-        await db.execute(
-            "INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)",
-            (uid, today, "missed")
-        )
+        await db.execute("INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)",
+                         (uid, today, "missed"))
 
-        await db.execute(
-            "UPDATE users SET missed=missed+1 WHERE id=?",
-            (uid,)
-        )
-
+        await db.execute("UPDATE users SET missed=missed+1 WHERE id=?", (uid,))
         await db.commit()
 
     await bot.send_message(uid, "❌ Kelmadingiz belgilandi")
     await call.answer()
 
-
-# ================= BROADCAST =================
-broadcast = False
-
+# ================= BROADCAST (FIXED) =================
+broadcast_mode = False
 
 @dp.callback_query(F.data == "broadcast")
 async def bc(call: CallbackQuery):
-    global broadcast
-    broadcast = True
+    global broadcast_mode
+    broadcast_mode = True
     await call.message.answer("📣 Xabar yozing")
     await call.answer()
 
-
 @dp.message()
-async def all_users(msg: Message):
-    global broadcast
+async def broadcast_handler(msg: Message):
+    global broadcast_mode
 
-    if msg.from_user.id == ADMIN_ID and broadcast:
+    if msg.from_user.id == ADMIN_ID and broadcast_mode:
+
         async with aiosqlite.connect(DB) as db:
             cur = await db.execute("SELECT id FROM users")
             users = await cur.fetchall()
@@ -381,15 +339,13 @@ async def all_users(msg: Message):
             except:
                 pass
 
-        broadcast = False
+        broadcast_mode = False
         await msg.answer("✅ Yuborildi")
-
 
 # ================= RUN =================
 async def main():
     await init_db()
     await dp.start_polling(bot)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
