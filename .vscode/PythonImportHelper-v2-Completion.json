@@ -1,135 +1,5 @@
 [
     {
-        "label": "asyncio",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "asyncio",
-        "description": "asyncio",
-        "detail": "asyncio",
-        "documentation": {}
-    },
-    {
-        "label": "sqlite3",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sqlite3",
-        "description": "sqlite3",
-        "detail": "sqlite3",
-        "documentation": {}
-    },
-    {
-        "label": "Bot",
-        "importPath": "aiogram",
-        "description": "aiogram",
-        "isExtraImport": true,
-        "detail": "aiogram",
-        "documentation": {}
-    },
-    {
-        "label": "Dispatcher",
-        "importPath": "aiogram",
-        "description": "aiogram",
-        "isExtraImport": true,
-        "detail": "aiogram",
-        "documentation": {}
-    },
-    {
-        "label": "types",
-        "importPath": "aiogram",
-        "description": "aiogram",
-        "isExtraImport": true,
-        "detail": "aiogram",
-        "documentation": {}
-    },
-    {
-        "label": "Bot",
-        "importPath": "aiogram",
-        "description": "aiogram",
-        "isExtraImport": true,
-        "detail": "aiogram",
-        "documentation": {}
-    },
-    {
-        "label": "Dispatcher",
-        "importPath": "aiogram",
-        "description": "aiogram",
-        "isExtraImport": true,
-        "detail": "aiogram",
-        "documentation": {}
-    },
-    {
-        "label": "F",
-        "importPath": "aiogram",
-        "description": "aiogram",
-        "isExtraImport": true,
-        "detail": "aiogram",
-        "documentation": {}
-    },
-    {
-        "label": "Command",
-        "importPath": "aiogram.filters",
-        "description": "aiogram.filters",
-        "isExtraImport": true,
-        "detail": "aiogram.filters",
-        "documentation": {}
-    },
-    {
-        "label": "Command",
-        "importPath": "aiogram.filters",
-        "description": "aiogram.filters",
-        "isExtraImport": true,
-        "detail": "aiogram.filters",
-        "documentation": {}
-    },
-    {
-        "label": "ReplyKeyboardMarkup",
-        "importPath": "aiogram.types",
-        "description": "aiogram.types",
-        "isExtraImport": true,
-        "detail": "aiogram.types",
-        "documentation": {}
-    },
-    {
-        "label": "KeyboardButton",
-        "importPath": "aiogram.types",
-        "description": "aiogram.types",
-        "isExtraImport": true,
-        "detail": "aiogram.types",
-        "documentation": {}
-    },
-    {
-        "label": "Message",
-        "importPath": "aiogram.types",
-        "description": "aiogram.types",
-        "isExtraImport": true,
-        "detail": "aiogram.types",
-        "documentation": {}
-    },
-    {
-        "label": "CallbackQuery",
-        "importPath": "aiogram.types",
-        "description": "aiogram.types",
-        "isExtraImport": true,
-        "detail": "aiogram.types",
-        "documentation": {}
-    },
-    {
-        "label": "InlineKeyboardMarkup",
-        "importPath": "aiogram.types",
-        "description": "aiogram.types",
-        "isExtraImport": true,
-        "detail": "aiogram.types",
-        "documentation": {}
-    },
-    {
-        "label": "InlineKeyboardButton",
-        "importPath": "aiogram.types",
-        "description": "aiogram.types",
-        "isExtraImport": true,
-        "detail": "aiogram.types",
-        "documentation": {}
-    },
-    {
         "label": "Flask",
         "importPath": "flask",
         "description": "flask",
@@ -146,12 +16,30 @@
         "documentation": {}
     },
     {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "os",
         "description": "os",
         "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
         "documentation": {}
     },
     {
@@ -189,66 +77,67 @@
         "documentation": {}
     },
     {
-        "label": "TOKEN",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "TOKEN = \"8729643272:AAEew8aqaiff5zACXp1iXi_OA8fPwMO5V1s\"\nADMIN_ID = 5192014741\n# =========================\nbot = Bot(token=TOKEN)\ndp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(",
-        "detail": "Boks-bot.main",
+        "label": "Bot",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
         "documentation": {}
     },
     {
-        "label": "ADMIN_ID",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "ADMIN_ID = 5192014741\n# =========================\nbot = Bot(token=TOKEN)\ndp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,",
-        "detail": "Boks-bot.main",
+        "label": "Dispatcher",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
         "documentation": {}
     },
     {
-        "label": "bot",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "bot = Bot(token=TOKEN)\ndp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0",
-        "detail": "Boks-bot.main",
+        "label": "F",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
         "documentation": {}
     },
     {
-        "label": "dp",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "dp = Dispatcher()\n# DATABASE\ndb = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0\n)",
-        "detail": "Boks-bot.main",
+        "label": "Message",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
         "documentation": {}
     },
     {
-        "label": "db",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "db = sqlite3.connect(\"users.db\")\ncursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0\n)\n\"\"\")\ndb.commit()",
-        "detail": "Boks-bot.main",
+        "label": "CallbackQuery",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
         "documentation": {}
     },
     {
-        "label": "cursor",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "cursor = db.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS users(\n    id INTEGER PRIMARY KEY,\n    full_name TEXT,\n    paid INTEGER DEFAULT 0\n)\n\"\"\")\ndb.commit()\n# MENU",
-        "detail": "Boks-bot.main",
+        "label": "InlineKeyboardMarkup",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
         "documentation": {}
     },
     {
-        "label": "menu",
-        "kind": 5,
-        "importPath": "Boks-bot.main",
-        "description": "Boks-bot.main",
-        "peekOfCode": "menu = ReplyKeyboardMarkup(\n    keyboard=[\n        [KeyboardButton(text=\"➕ Sportchi qo'shish\")],\n        [KeyboardButton(text=\"📋 Sportchilar\")],\n        [KeyboardButton(text=\"💰 To'lov qilganlar\")],\n        [KeyboardButton(text=\"❌ Qarzdorlar\")],\n        [KeyboardButton(text=\"📢 Barchaga xabar\")]\n    ],\n    resize_keyboard=True\n)",
-        "detail": "Boks-bot.main",
+        "label": "InlineKeyboardButton",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "importPath": "aiogram.filters",
+        "description": "aiogram.filters",
+        "isExtraImport": true,
+        "detail": "aiogram.filters",
         "documentation": {}
     },
     {
@@ -301,7 +190,7 @@
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def admin_kb():\n    return InlineKeyboardMarkup(inline_keyboard=[\n        [InlineKeyboardButton(text=\"👥 Sportchilar\", callback_data=\"users\")],\n        [InlineKeyboardButton(text=\"💰 To‘laganlar\", callback_data=\"paid\")],\n        [InlineKeyboardButton(text=\"❌ Qarzdorlar\", callback_data=\"debt\")],\n        [InlineKeyboardButton(text=\"📊 Davomat report\", callback_data=\"report\")],\n        [InlineKeyboardButton(text=\"📣 Xabar yuborish\", callback_data=\"broadcast\")],\n        [InlineKeyboardButton(text=\"🥊 Murabbiy info\", callback_data=\"coach\")]\n    ])\n# ================= START =================",
+        "peekOfCode": "def admin_kb():\n    return InlineKeyboardMarkup(inline_keyboard=[\n        [InlineKeyboardButton(text=\"👥 Sportchilar\", callback_data=\"users\")],\n        [InlineKeyboardButton(text=\"💰 To‘laganlar\", callback_data=\"paid\")],\n        [InlineKeyboardButton(text=\"❌ Qarzdorlar\", callback_data=\"debt\")],\n        [InlineKeyboardButton(text=\"📊 Davomat\", callback_data=\"attendance_menu\")],\n        [InlineKeyboardButton(text=\"📣 Xabar yuborish\", callback_data=\"broadcast\")],\n        [InlineKeyboardButton(text=\"🥊 Murabbiy info\", callback_data=\"coach\")]\n    ])\n# ================= START =================",
         "detail": "main",
         "documentation": {}
     },
@@ -356,6 +245,15 @@
         "importPath": "main",
         "description": "main",
         "peekOfCode": "dp = Dispatcher()\nlogging.basicConfig(level=logging.INFO)\n# ================= DATABASE =================\nasync def init_db():\n    async with aiosqlite.connect(DB) as db:\n        await db.execute(\"\"\"\n        CREATE TABLE IF NOT EXISTS users(\n            id INTEGER PRIMARY KEY,\n            name TEXT,\n            phone TEXT DEFAULT '-',",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "broadcast_mode",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "broadcast_mode = False\n@dp.callback_query(F.data == \"broadcast\")\nasync def broadcast(call: CallbackQuery):\n    global broadcast_mode\n    if call.from_user.id != ADMIN_ID:\n        return\n    broadcast_mode = True\n    await call.message.answer(\"📣 Xabar matnini yuboring:\")\n    await call.answer()\n@dp.message()",
         "detail": "main",
         "documentation": {}
     }
