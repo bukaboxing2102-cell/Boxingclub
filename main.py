@@ -25,6 +25,7 @@ dp = Dispatcher()
 
 logging.basicConfig(level=logging.INFO)
 
+
 # ================= DATABASE =================
 async def init_db():
     async with aiosqlite.connect(DB) as db:
@@ -68,6 +69,8 @@ def phone_kb():
         resize_keyboard=True,
         one_time_keyboard=True
     )
+
+
 def user_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="👤 Profil", callback_data="profile")],
@@ -107,12 +110,12 @@ async def start(msg: Message):
 
     kb = admin_kb() if msg.from_user.id == ADMIN_ID else user_kb()
 
-   await msg.answer(
+    await msg.answer(
     "📱 Telefon raqamingizni yuboring",
     reply_markup=phone_kb()
 )
 
-await msg.answer(
+    await msg.answer(
     "🥊 UMIDOV BOKS CLUB CRM",
     reply_markup=kb
 )
@@ -246,7 +249,7 @@ async def card_ok(call: CallbackQuery):
 @dp.callback_query(F.data == "cash")
 async def cash(call: CallbackQuery):
 
-     kb = InlineKeyboardMarkup(inline_keyboard=[[
+    kb = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
             text="✅ Tasdiqlash",
             callback_data=f"cash_{call.from_user.id}"
@@ -461,6 +464,7 @@ async def missed_user(call: CallbackQuery):
 
     await call.answer("Kelmadi belgilandi ❌")
 
+
 # ================= COACH =================
 @dp.callback_query(F.data == "coach")
 async def coach(call: CallbackQuery):
@@ -473,6 +477,7 @@ async def coach(call: CallbackQuery):
 💪 Professional Boxing Coach
 """)
     await call.answer()
+
 
 # ================= BROADCAST =================
 broadcast_mode = False
@@ -510,6 +515,8 @@ async def all_messages(msg: Message):
 
         broadcast_mode = False
         await msg.answer(f"✅ {sent} ta sportchiga yuborildi")
+
+
 # ================= RUN =================
 async def main():
     await init_db()
