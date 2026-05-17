@@ -9,6 +9,8 @@ from aiogram.types import (
     CallbackQuery,
     InlineKeyboardMarkup,
     InlineKeyboardButton
+    ReplyKeyboardMarkup
+    KeyboardButton
 )
 from aiogram.filters import Command
 
@@ -53,6 +55,19 @@ async def init_db():
 
 
 # ================= KEYBOARDS =================
+def phone_kb():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(
+                    text="📱 Telefon raqam yuborish",
+                    request_contact=True
+                )
+            ]
+        ],
+        resize_keyboard=True,
+        one_time_keyboard=True
+    )
 def user_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="👤 Profil", callback_data="profile")],
@@ -92,12 +107,33 @@ async def start(msg: Message):
 
     kb = admin_kb() if msg.from_user.id == ADMIN_ID else user_kb()
 
-    await msg.answer(
-        "🥊 UMIDOV BOKS CLUB CRM",
-        reply_markup=kb
-    )
+   await msg.answer(
+    "📱 Telefon raqamingizni yuboring",
+    reply_markup=phone_kb()
+)
+
+await msg.answer(
+    "🥊 UMIDOV BOKS CLUB CRM",
+    reply_markup=kb
+)
 
 
+# ================= PHONE =================
+@dp.message(F.contact)
+async def save_phone(msg: Message):
+
+    phone = msg.contact.phone_number
+
+    async with aiosqlite.connect(DB) as db:
+        await db.execute(
+            "UPDATE users SET phone=? WHERE id=?",
+            (phone, msg.from_user.id)
+        )
+        await db.commit()
+
+    await msg.answer("✅ Telefon raqamingiz saqlandi")
+    
+    
 # ================= USERS =================
 @dp.callback_query(F.data == "users")
 async def users(call: CallbackQuery):
@@ -210,7 +246,7 @@ async def card_ok(call: CallbackQuery):
 @dp.callback_query(F.data == "cash")
 async def cash(call: CallbackQuery):
 
-    kb = InlineKeyboardMarkup(inline_keyboard=[[
+     kb = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
             text="✅ Tasdiqlash",
             callback_data=f"cash_{call.from_user.id}"
