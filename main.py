@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import aiosqlite
-from datetime import date, datetime
+from datetime import date
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.types import (
@@ -17,7 +17,11 @@ from aiogram.filters import Command
 # ================= CONFIG =================
 TOKEN = "8729643272:AAEKIM3A5s1bzRrc9Epf6swoLtmLEw2HN4E"
 ADMIN_ID = 5192014741
+
 CARD = "8600120414465784"
+BANK_MFO = "01125"
+BANK_ACCOUNT = "20208000707363910001"
+
 DB = "club.db"
 
 bot = Bot(TOKEN)
@@ -58,14 +62,7 @@ async def init_db():
 # ================= KEYBOARDS =================
 def phone_kb():
     return ReplyKeyboardMarkup(
-        keyboard=[
-            [
-                KeyboardButton(
-                    text="📱 Telefon raqam yuborish",
-                    request_contact=True
-                )
-            ]
-        ],
+        keyboard=[[KeyboardButton("📱 Telefon raqam yuborish", request_contact=True)]],
         resize_keyboard=True,
         one_time_keyboard=True
     )
@@ -73,20 +70,19 @@ def phone_kb():
 
 def user_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="👤 Profil", callback_data="profile")],
-        [InlineKeyboardButton(text="💰 To‘lov", callback_data="pay")],
-        [InlineKeyboardButton(text="🥊 Murabbiy", callback_data="coach")]
+        [InlineKeyboardButton("👤 Profil", callback_data="profile")],
+        [InlineKeyboardButton("💰 To‘lov", callback_data="pay")],
+        [InlineKeyboardButton("🥊 Murabbiy", callback_data="coach")]
     ])
 
 
 def admin_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="👥 Sportchilar", callback_data="users")],
-        [InlineKeyboardButton(text="💰 To‘laganlar", callback_data="paid")],
-        [InlineKeyboardButton(text="❌ Qarzdorlar", callback_data="debt")],
-        [InlineKeyboardButton(text="📊 Davomat", callback_data="attendance_menu")],
-        [InlineKeyboardButton(text="📣 Xabar yuborish", callback_data="broadcast")],
-        [InlineKeyboardButton(text="🥊 Murabbiy info", callback_data="coach")]
+        [InlineKeyboardButton("👥 Sportchilar", callback_data="users")],
+        [InlineKeyboardButton("💰 To‘laganlar", callback_data="paid")],
+        [InlineKeyboardButton("❌ Qarzdorlar", callback_data="debt")],
+        [InlineKeyboardButton("📊 Davomat", callback_data="attendance_menu")],
+        [InlineKeyboardButton("📣 Xabar yuborish", callback_data="broadcast")],
     ])
 
 
@@ -95,10 +91,7 @@ def admin_kb():
 async def start(msg: Message):
 
     async with aiosqlite.connect(DB) as db:
-        cur = await db.execute(
-            "SELECT id FROM users WHERE id=?",
-            (msg.from_user.id,)
-        )
+        cur = await db.execute("SELECT id FROM users WHERE id=?", (msg.from_user.id,))
         user = await cur.fetchone()
 
         if not user:
@@ -110,50 +103,21 @@ async def start(msg: Message):
 
     kb = admin_kb() if msg.from_user.id == ADMIN_ID else user_kb()
 
-    await msg.answer(
-    "📱 Telefon raqamingizni yuboring",
-    reply_markup=phone_kb()
-)
-
-    await msg.answer(
-    "🥊 UMIDOV BOKS CLUB CRM",
-    reply_markup=kb
-)
+    await msg.answer("📱 Telefon raqamingizni yuboring", reply_markup=phone_kb())
+    await msg.answer("🥊 UMIDOV BOKS CLUB CRM", reply_markup=kb)
 
 
 # ================= PHONE =================
 @dp.message(F.contact)
 async def save_phone(msg: Message):
-
-    phone = msg.contact.phone_number
-
     async with aiosqlite.connect(DB) as db:
         await db.execute(
             "UPDATE users SET phone=? WHERE id=?",
-            (phone, msg.from_user.id)
+            (msg.contact.phone_number, msg.from_user.id)
         )
         await db.commit()
 
-    await msg.answer("✅ Telefon raqamingiz saqlandi")
-    
-    
-# ================= USERS =================
-@dp.callback_query(F.data == "users")
-async def users(call: CallbackQuery):
-
-    async with aiosqlite.connect(DB) as db:
-        cur = await db.execute(
-            "SELECT id,name,phone FROM users"
-        )
-        rows = await cur.fetchall()
-
-    text = "👥 SPORTCHILAR\n\n"
-
-    for r in rows:
-        text += f"🆔 {r[0]}\n👤 {r[1]}\n📞 {r[2]}\n\n"
-
-    await call.message.edit_text(text)
-    await call.answer()
+    await msg.answer("✅ Telefon saqlandi")
 
 
 # ================= PROFILE =================
@@ -162,24 +126,20 @@ async def profile(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
         cur = await db.execute("""
-        SELECT name,phone,payment,attendance,
-        missed,last_payment,pay_type
-        FROM users
-        WHERE id=?
+        SELECT name,phone,payment,attendance,missed,last_payment,pay_type
+        FROM users WHERE id=?
         """, (call.from_user.id,))
         u = await cur.fetchone()
 
-    await call.message.edit_text(
-        f"""
+    await call.message.edit_text(f"""
 👤 {u[0]}
 📞 {u[1]}
 💰 {'✅' if u[2] else '❌'} ({u[6]})
-📊 Davomat: {u[3]}
-❌ Qoldirgan: {u[4]}
+📊 Keldi: {u[3]}
+❌ Kelmadi: {u[4]}
 📅 Oxirgi to‘lov: {u[5]}
-""",
-        reply_markup=user_kb()
-    )
+""", reply_markup=user_kb())
+
     await call.answer()
 
 
@@ -188,46 +148,58 @@ async def profile(call: CallbackQuery):
 async def pay(call: CallbackQuery):
 
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="💳 Karta", callback_data="card")],
-        [InlineKeyboardButton(text="💵 Naqd", callback_data="cash")]
+        [InlineKeyboardButton("💳 Karta", callback_data="card")],
+        [InlineKeyboardButton("🏦 Bank", callback_data="bank")],
+        [InlineKeyboardButton("💵 Naqd", callback_data="cash")]
     ])
 
-    await call.message.edit_text(
-        f"💳 Karta: {CARD}",
-        reply_markup=kb
-    )
+    await call.message.edit_text(f"""
+💰 TO‘LOV
+
+💳 Karta: {CARD}
+
+🏦 Bank:
+MFO: {BANK_MFO}
+Hisob: {BANK_ACCOUNT}
+""", reply_markup=kb)
+
+    await call.answer()
+
+
+# ================= BANK =================
+@dp.callback_query(F.data == "bank")
+async def bank(call: CallbackQuery):
+    await call.message.answer(f"""
+🏦 BANK
+
+MFO: {BANK_MFO}
+Hisob: {BANK_ACCOUNT}
+
+📸 Chek yuboring
+""")
     await call.answer()
 
 
 # ================= CARD =================
 @dp.callback_query(F.data == "card")
 async def card(call: CallbackQuery):
-    await call.message.answer("📸 Chek rasmini yuboring")
+    await call.message.answer("📸 Karta chek yuboring")
     await call.answer()
 
 
 @dp.message(F.photo)
-async def card_check(msg: Message):
+async def photo(msg: Message):
 
     kb = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(
-            text="✅ Tasdiqlash",
-            callback_data=f"card_{msg.from_user.id}"
-        )
+        InlineKeyboardButton("✅ Tasdiqlash", callback_data=f"pay_{msg.from_user.id}")
     ]])
 
-    await bot.send_photo(
-        ADMIN_ID,
-        msg.photo[-1].file_id,
-        caption="💳 To‘lov cheki",
-        reply_markup=kb
-    )
-
-    await msg.answer("📩 Chek yuborildi")
+    await bot.send_photo(ADMIN_ID, msg.photo[-1].file_id, reply_markup=kb)
+    await msg.answer("📩 Yuborildi")
 
 
-@dp.callback_query(F.data.startswith("card_"))
-async def card_ok(call: CallbackQuery):
+@dp.callback_query(F.data.startswith("pay_"))
+async def approve(call: CallbackQuery):
 
     uid = int(call.data.split("_")[1])
 
@@ -235,52 +207,28 @@ async def card_ok(call: CallbackQuery):
         await db.execute("""
         UPDATE users
         SET payment=1,
-            pay_type='card',
             last_payment=?
         WHERE id=?
         """, (date.today().isoformat(), uid))
         await db.commit()
 
     await bot.send_message(uid, "✅ To‘lov tasdiqlandi")
-    await call.answer("Tasdiqlandi")
+    await call.answer()
 
 
-# ================= CASH =================
-@dp.callback_query(F.data == "cash")
-async def cash(call: CallbackQuery):
-
-    kb = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(
-            text="✅ Tasdiqlash",
-            callback_data=f"cash_{call.from_user.id}"
-        )
-    ]])
-
-    await bot.send_message(
-        ADMIN_ID,
-        f"💵 Naqd to‘lov: {call.from_user.id}",
-        reply_markup=kb
-    )
-
-    await call.answer("Adminga yuborildi")
-
-
-@dp.callback_query(F.data.startswith("cash_"))
-async def cash_ok(call: CallbackQuery):
-
-    uid = int(call.data.split("_")[1])
+# ================= USERS =================
+@dp.callback_query(F.data == "users")
+async def users(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
-        await db.execute("""
-        UPDATE users
-        SET payment=1,
-            pay_type='cash',
-            last_payment=?
-        WHERE id=?
-        """, (date.today().isoformat(), uid))
-        await db.commit()
+        cur = await db.execute("SELECT id,name,phone FROM users")
+        rows = await cur.fetchall()
 
-    await bot.send_message(uid, "✅ Naqd to‘lov tasdiqlandi")
+    text = "👥 SPORTCHILAR\n\n"
+    for r in rows:
+        text += f"{r[0]} | {r[1]} | {r[2]}\n"
+
+    await call.message.edit_text(text)
     await call.answer()
 
 
@@ -291,17 +239,11 @@ async def paid(call: CallbackQuery):
     async with aiosqlite.connect(DB) as db:
         cur = await db.execute("""
         SELECT name,pay_type,last_payment
-        FROM users
-        WHERE payment=1
+        FROM users WHERE payment=1
         """)
         rows = await cur.fetchall()
 
-    if not rows:
-        await call.message.edit_text("❌ To‘laganlar yo‘q")
-        return
-
     text = "💰 TO‘LAGANLAR\n\n"
-
     for r in rows:
         text += f"{r[0]} | {r[1]} | {r[2]}\n"
 
@@ -315,16 +257,13 @@ async def debt(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
         cur = await db.execute("""
-        SELECT name,last_payment
-        FROM users
-        WHERE payment=0
+        SELECT name FROM users WHERE payment=0
         """)
         rows = await cur.fetchall()
 
     text = "❌ QARZDORLAR\n\n"
-
     for r in rows:
-        text += f"{r[0]} | {r[1]}\n"
+        text += f"{r[0]}\n"
 
     await call.message.edit_text(text)
     await call.answer()
@@ -335,186 +274,115 @@ async def debt(call: CallbackQuery):
 async def attendance_menu(call: CallbackQuery):
 
     async with aiosqlite.connect(DB) as db:
-
-        cur = await db.execute("""
-        SELECT name, attendance, missed
-        FROM users
-        """)
-
-        rows = await cur.fetchall()
-
-    text = "📊 DAVOMAT HISOBOTI\n\n"
-
-    for r in rows:
-        text += f"""
-👤 {r[0]}
-✅ Keldi: {r[1]}
-❌ Qoldirdi: {r[2]}
-
-"""
-
-    await call.message.answer(text)
-
-    async with aiosqlite.connect(DB) as db:
-
-        cur = await db.execute(
-            "SELECT id,name FROM users"
-        )
-
+        cur = await db.execute("SELECT id,name FROM users")
         users = await cur.fetchall()
 
-    for user in users:
+    for u in users:
+        kb = InlineKeyboardMarkup(inline_keyboard=[[
+            InlineKeyboardButton("✅ Keldi", callback_data=f"came_{u[0]}"),
+            InlineKeyboardButton("❌ Kelmadi", callback_data=f"missed_{u[0]}")
+        ]])
 
-        kb = InlineKeyboardMarkup(
-            inline_keyboard=[[
-                InlineKeyboardButton(
-                    text="✅ Keldi",
-                    callback_data=f"came_{user[0]}"
-                ),
-
-                InlineKeyboardButton(
-                    text="❌ Kelmadi",
-                    callback_data=f"missed_{user[0]}"
-                )
-            ]]
-        )
-
-        await call.message.answer(
-            f"🥊 {user[1]}",
-            reply_markup=kb
-        )
+        await call.message.answer(u[1], reply_markup=kb)
 
     await call.answer()
 
 
 # ================= CAME =================
 @dp.callback_query(F.data.startswith("came_"))
-async def came_user(call: CallbackQuery):
+async def came(call: CallbackQuery):
 
     uid = int(call.data.split("_")[1])
-
     today = str(date.today())
 
     async with aiosqlite.connect(DB) as db:
 
-        cur = await db.execute("""
-        SELECT * FROM attendance
-        WHERE user_id=? AND date=?
-        """, (uid, today))
-
-        check = await cur.fetchone()
-
-        if check:
-            await call.answer(
-                "Bugun davomat qilingan ✅"
-            )
+        cur = await db.execute(
+            "SELECT * FROM attendance WHERE user_id=? AND date=?",
+            (uid, today)
+        )
+        if await cur.fetchone():
+            await call.answer("Allaqachon belgilangan")
             return
 
-        await db.execute("""
-        INSERT INTO attendance(user_id,date,status)
-        VALUES(?,?,?)
-        """, (uid, today, "came"))
+        await db.execute(
+            "INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)",
+            (uid, today, "came")
+        )
 
-        await db.execute("""
-        UPDATE users
-        SET attendance = attendance + 1
-        WHERE id=?
-        """, (uid,))
+        await db.execute(
+            "UPDATE users SET attendance=attendance+1 WHERE id=?",
+            (uid,)
+        )
 
         await db.commit()
 
-    await call.answer("Keldi belgilandi ✅")
+    await bot.send_message(uid, "✅ Keldingiz belgilandi")
+    await call.answer()
 
 
 # ================= MISSED =================
 @dp.callback_query(F.data.startswith("missed_"))
-async def missed_user(call: CallbackQuery):
+async def missed(call: CallbackQuery):
 
     uid = int(call.data.split("_")[1])
-
     today = str(date.today())
 
     async with aiosqlite.connect(DB) as db:
 
-        cur = await db.execute("""
-        SELECT * FROM attendance
-        WHERE user_id=? AND date=?
-        """, (uid, today))
-
-        check = await cur.fetchone()
-
-        if check:
-            await call.answer(
-                "Bugun davomat qilingan ✅"
-            )
+        cur = await db.execute(
+            "SELECT * FROM attendance WHERE user_id=? AND date=?",
+            (uid, today)
+        )
+        if await cur.fetchone():
+            await call.answer("Allaqachon belgilangan")
             return
 
-        await db.execute("""
-        INSERT INTO attendance(user_id,date,status)
-        VALUES(?,?,?)
-        """, (uid, today, "missed"))
+        await db.execute(
+            "INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)",
+            (uid, today, "missed")
+        )
 
-        await db.execute("""
-        UPDATE users
-        SET missed = missed + 1
-        WHERE id=?
-        """, (uid,))
+        await db.execute(
+            "UPDATE users SET missed=missed+1 WHERE id=?",
+            (uid,)
+        )
 
         await db.commit()
 
-    await call.answer("Kelmadi belgilandi ❌")
-
-
-# ================= COACH =================
-@dp.callback_query(F.data == "coach")
-async def coach(call: CallbackQuery):
-    await call.message.edit_text("""
-🥊 MURABBIY
-
-👤 Umidov Rajabboy Xushnud o‘g‘li
-📞 +99899 741 33 61
-
-💪 Professional Boxing Coach
-""")
+    await bot.send_message(uid, "❌ Kelmadingiz belgilandi")
     await call.answer()
 
 
 # ================= BROADCAST =================
-broadcast_mode = False
+broadcast = False
 
 
 @dp.callback_query(F.data == "broadcast")
-async def broadcast(call: CallbackQuery):
-    global broadcast_mode
-
-    if call.from_user.id != ADMIN_ID:
-        return
-
-    broadcast_mode = True
-    await call.message.answer("📣 Xabar matnini yuboring:")
+async def bc(call: CallbackQuery):
+    global broadcast
+    broadcast = True
+    await call.message.answer("📣 Xabar yozing")
     await call.answer()
 
 
 @dp.message()
-async def all_messages(msg: Message):
-    global broadcast_mode
+async def all_users(msg: Message):
+    global broadcast
 
-    if msg.from_user.id == ADMIN_ID and broadcast_mode:
+    if msg.from_user.id == ADMIN_ID and broadcast:
         async with aiosqlite.connect(DB) as db:
             cur = await db.execute("SELECT id FROM users")
             users = await cur.fetchall()
 
-        sent = 0
-
         for u in users:
             try:
                 await bot.send_message(u[0], msg.text)
-                sent += 1
             except:
                 pass
 
-        broadcast_mode = False
-        await msg.answer(f"✅ {sent} ta sportchiga yuborildi")
+        broadcast = False
+        await msg.answer("✅ Yuborildi")
 
 
 # ================= RUN =================
