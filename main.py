@@ -172,6 +172,8 @@ async def coach(call: CallbackQuery):
 👤 Umidov Rajabboy Xushnud o‘g‘li
 🏆 Professional Boxing Coach
 📞 +99899 741 33 61
+
+KUCH+INTIZOM=GALABA 
 """)
     await call.answer()
 
@@ -281,6 +283,105 @@ async def cash_approve(call: CallbackQuery):
 
     await bot.send_message(uid, "✅ Naqd to‘lov tasdiqlandi")
     await call.answer("Tasdiqlandi")
+    
+    # ================= MANUAL PAID / UNPAID =================
+@dp.message(Command("paid"))
+async def manual_paid(msg: Message):
+
+    if msg.from_user.id != ADMIN_ID:
+        return await msg.answer("❌ Siz admin emassiz")
+
+    try:
+        args = msg.text.split()
+
+        if len(args) != 2:
+            return await msg.answer("❌ Misol: /paid 123456")
+
+        uid = int(args[1])
+
+        async with aiosqlite.connect(DB) as db:
+            cur = await db.execute(
+                "SELECT name FROM users WHERE id=?",
+                (uid,)
+            )
+            user = await cur.fetchone()
+
+            if not user:
+                return await msg.answer("❌ ID topilmadi")
+
+            await db.execute("""
+                UPDATE users
+                SET payment=1,
+                    pay_type='admin',
+                    last_payment=?
+                WHERE id=?
+            """, (date.today().isoformat(), uid))
+
+            await db.commit()
+
+        try:
+            await bot.send_message(
+                uid,
+                "✅ To‘lovingiz admin tomonidan tasdiqlandi"
+            )
+        except:
+            pass
+
+        await msg.answer(
+            f"✅ {user[0]} to‘lovi tasdiqlandi"
+        )
+
+    except:
+        await msg.answer("❌ ID noto‘g‘ri")
+
+
+@dp.message(Command("unpaid"))
+async def manual_unpaid(msg: Message):
+
+    if msg.from_user.id != ADMIN_ID:
+        return await msg.answer("❌ Siz admin emassiz")
+
+    try:
+        args = msg.text.split()
+
+        if len(args) != 2:
+            return await msg.answer("❌ Misol: /unpaid 123456")
+
+        uid = int(args[1])
+
+        async with aiosqlite.connect(DB) as db:
+            cur = await db.execute(
+                "SELECT name FROM users WHERE id=?",
+                (uid,)
+            )
+            user = await cur.fetchone()
+
+            if not user:
+                return await msg.answer("❌ ID topilmadi")
+
+            await db.execute("""
+                UPDATE users
+                SET payment=0,
+                    pay_type='-'
+                WHERE id=?
+            """, (uid,))
+
+            await db.commit()
+
+        try:
+            await bot.send_message(
+                uid,
+                "❌ To‘lovingiz admin tomonidan bekor qilindi"
+            )
+        except:
+            pass
+
+        await msg.answer(
+            f"✅ {user[0]} to‘lovi bekor qilindi"
+        )
+
+    except:
+        await msg.answer("❌ ID noto‘g‘ri")
 
 
 # ================= PAID =================
