@@ -1,6 +1,8 @@
 import asyncio
 import logging
 import aiosqlite
+import asyncpg
+import os
 from datetime import date
 
 from aiogram import Bot, Dispatcher, F
@@ -12,14 +14,14 @@ from aiogram.types import (
 from aiogram.filters import Command
 
 # ================= CONFIG =================
-TOKEN = "8729643272:AAEJIOX8RM-IFIek89EHQsUHwtW8DvhJX1M"   # <-- tokeningizni yozing
+TOKEN = "8729643272:AAEJIOX8RM-IFIek89EHQsUHwtW8DvhJX1M"  # <-- tokeningizni yozing
 ADMIN_ID = 5192014741
 
 CARD = "8600120414465784"
 BANK_MFO = "01125"
 BANK_ACCOUNT = "20208000707363910001"
-
-DB = "club.db"
+            
+DB = os.getenv("${{Postgres.DATABASE_URL}}")
 
 bot = Bot(TOKEN)
 dp = Dispatcher()
@@ -31,8 +33,9 @@ broadcast_mode = False
 
 # ================= DATABASE =================
 async def init_db():
-    async with aiosqlite.connect(DB) as db:
-        await db.execute("""
+    conn = await asyncpg.connect (DB)
+    
+    await conn.execute("""
         CREATE TABLE IF NOT EXISTS users(
             id INTEGER PRIMARY KEY,
             name TEXT,
@@ -45,7 +48,7 @@ async def init_db():
         )
         """)
 
-        await db.execute("""
+        await conn.execute("""
         CREATE TABLE IF NOT EXISTS attendance(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -54,7 +57,7 @@ async def init_db():
         )
         """)
 
-        await db.commit()
+        await conn.close()
 
 
 # ================= KEYBOARDS =================
@@ -92,18 +95,22 @@ def phone_kb():
 # ================= START =================
 @dp.message(Command("start"))
 async def start(msg: Message):
-    async with aiosqlite.connect(DB) as db:
-        cur = await db.execute(
-            "SELECT id FROM users WHERE id=?",
-            (msg.from_user.id,)
+
+    conn = await asyncpg.connect(DB)
+
+    user = await conn.fetchrow(
+        "SELECT id FROM users WHERE id=$1",
+        msg.from_user.id
+    )
+
+    if not user:
+        await conn.execute(
+            "INSERT INTO users (id, name) VALUES ($1, $2)",
+            msg.from_user.id,
+            msg.from_user.full_name
         )
 
-        if not await cur.fetchone():
-            await db.execute(
-                "INSERT INTO users(id,name) VALUES(?,?)",
-                (msg.from_user.id, msg.from_user.full_name)
-            )
-            await db.commit()
+    await conn.close()
 
     kb = admin_kb() if msg.from_user.id == ADMIN_ID else user_kb()
 
@@ -283,6 +290,7 @@ async def cash_approve(call: CallbackQuery):
 
     await bot.send_message(uid, "✅ Naqd to‘lov tasdiqlandi")
     await call.answer("Tasdiqlandi")
+
     
     # ================= MANUAL PAID / UNPAID =================
 @dp.message(Command("paid"))
