@@ -48,7 +48,7 @@ async def init_db():
         )
         """)
 
-        await conn.execute("""
+    await conn.execute("""
         CREATE TABLE IF NOT EXISTS attendance(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -57,7 +57,7 @@ async def init_db():
         )
         """)
 
-        await conn.close()
+    await conn.close()
 
 
 # ================= KEYBOARDS =================
