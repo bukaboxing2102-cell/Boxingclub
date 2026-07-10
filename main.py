@@ -21,7 +21,7 @@ CARD = "8600120414465784"
 BANK_MFO = "01125"
 BANK_ACCOUNT = "20208000707363910001"
             
-DB = os.getenv("${{Postgres.DATABASE_URL}}")
+DB = os.getenv("DATABASE_URL")
 
 bot = Bot(TOKEN)
 dp = Dispatcher()
